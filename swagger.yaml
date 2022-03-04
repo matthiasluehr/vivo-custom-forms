@@ -1,0 +1,49 @@
+openapi: '3.0.3'
+info:
+  version: 0.0.1
+  title: NDB API
+  description: 'A REST API that provides extra functionality to the NetDatabase (IDM and Host Managment)'
+  contact:
+    name: Matthias Lühr
+    url:  https://www.staff.hs-mittweida.de/luehr/koken
+    email: luehr@hs-mittweida.de
+  license:
+    name: MIT
+    url: http://opensource.org/licenses/MIT
+servers:
+  - url: https://ndbapi.hs-mittweida.de/v1/
+    description: Prodcuction System
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: ApiKey
+      in: header
+      name: Authentication
+  schemas:
+    HashOfUser:
+      type: object
+      additionalProperties:
+        type: object
+      properties:
+        uri:
+         type: String
+        login:
+          type: String
+paths:
+    /groups:  
+      get:
+        summary: List all groups availbale to the consumer.
+        responses:
+          200:
+            description: All OK.
+        security:
+          -ApiKeyAuth: ['']
+    /users/{id}:
+      get:
+        summary: Get information about a single user
+        responses:
+          200:
+            description: All OK.
+            content:
+              application/json:
+                schema: '#/components/schemas/HashOfUser'
